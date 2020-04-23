@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import ru.sberbank.service.domain.User;
 //import org.springframework.util.Assert;
 import ru.sberbank.service.domain.UserWrapper;
+import ru.sberbank.service.exception.ConflictException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,4 +54,6 @@ public class ControllerTest {
 		Assert.assertNotNull(result.getBody());
 		Assert.assertEquals(userTest, result.getBody());
 	}
+
+
 }
