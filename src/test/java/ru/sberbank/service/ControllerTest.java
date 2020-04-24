@@ -1,21 +1,14 @@
 package ru.sberbank.service;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-//import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import ru.sberbank.service.domain.User;
-//import org.springframework.util.Assert;
-import ru.sberbank.service.domain.UserWrapper;
-import ru.sberbank.service.exception.ConflictException;
-import ru.sberbank.service.service.UserService;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ControllerTest {
