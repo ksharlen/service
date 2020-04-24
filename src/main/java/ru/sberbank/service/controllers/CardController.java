@@ -5,33 +5,42 @@ import org.springframework.web.bind.annotation.*;
 import ru.sberbank.service.domain.Card;
 import ru.sberbank.service.service.ServiceCard;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/card")
+@RequestMapping("/{userId}/cards")
 public class CardController {
 	@Autowired
 	private ServiceCard<Card, Long> serviceCard;
 
-	@PutMapping("/money-transaction")
-	public List<Card> moneyTransaction(@RequestParam Card fromCard,
-	                                   @RequestParam Card onCard,
-	                                   @RequestParam Long sum) {
-		return (serviceCard.transferMoney(fromCard, onCard, sum));
+	@GetMapping("/{CardId}")
+	public Card getCard(@PathVariable String userId, @PathVariable String CardId) {
+		return (serviceCard.getCard(Long.parseLong(CardId)));
 	}
 
-	@PostMapping("new-card")
-	public Card createNewCard(@RequestParam String name, @RequestParam String lastName) {
+
+	@PutMapping("/transaction")
+	public Card moneyTransaction(@PathVariable String userId,
+	                             @RequestParam Long idFromCard,
+                                 @RequestParam Long idOnCard,
+                                 @RequestParam Long sum) {
+		return (serviceCard.transferMoney(idFromCard, idOnCard, sum));
+	}
+
+	@PostMapping("/new-card")
+	public Card createNewCard(@PathVariable String userId,
+	                          @RequestParam String name,
+	                          @RequestParam String lastName) {
 		return (serviceCard.createNewCard(name, lastName));
 	}
 
-	@PutMapping("recharge-the-balance")
-	public Card replenishTheBalance(@RequestParam Card card, Long incBy) {
+	@PutMapping("/balance/recharge-the-balance")
+	public Card replenishTheBalance(@PathVariable String userId,
+									@RequestParam Card card, Long incBy) {
 		return (serviceCard.replenishBalance(card, incBy));
 	}
 
-	@PutMapping("get-balance")
-	public Long getBalanceCard(@RequestBody Long idCard) {
-		return (serviceCard.getBalanceCard(idCard));
+	@PutMapping("/balance/{cardId}")
+	public Long getBalanceCard(@PathVariable String userId,
+	                           @PathVariable String cardId) {
+		return (serviceCard.getBalanceCard(Long.parseLong(cardId)));
 	}
 }

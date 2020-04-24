@@ -5,9 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.sberbank.service.domain.Card;
 import ru.sberbank.service.repos.CardRepository;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Service
 public class ServiceCardImpl implements ServiceCard<Card, Long>{
 	@Autowired
@@ -21,16 +18,18 @@ public class ServiceCardImpl implements ServiceCard<Card, Long>{
 	}
 
 	@Override
-	public List<Card> transferMoney(Card fromCard, Card onCard, Long sum) {
-		if (fromCard.isNotThanLess(sum)) {
-			fromCard.decreaseBalance(sum);
-			onCard.increaseBalance(sum);
-			cardRepository.save(fromCard);
-			cardRepository.save(onCard);
+	public Card transferMoney(Long fromCard, Long onCard, Long sum) {
+		Card cardFrom = cardRepository.getCardById(fromCard);
+		Card cardOn = cardRepository.getCardById(onCard);
+		if (cardFrom.isNotThanLess(sum)) {
+			cardFrom.decreaseBalance(sum);
+			cardOn.increaseBalance(sum);
+			cardRepository.save(cardFrom);
+			cardRepository.save(cardOn);
 		} else {
 			//todo: exception
 		}
-		return (Arrays.asList(fromCard, onCard));
+		return (cardFrom);
 	}
 
 	@Override
@@ -43,5 +42,10 @@ public class ServiceCardImpl implements ServiceCard<Card, Long>{
 	@Override
 	public Long getBalanceCard(Long idCard) {
 		return (cardRepository.getCardById(idCard).getBalance());
+	}
+
+	@Override
+	public Card getCard(Long idCard) {
+		return (cardRepository.getCardById(idCard));
 	}
 }
