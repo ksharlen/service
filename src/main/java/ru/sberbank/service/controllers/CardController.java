@@ -3,17 +3,17 @@ package ru.sberbank.service.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.service.domain.Card;
-import ru.sberbank.service.service.ServiceCard;
+import ru.sberbank.service.service.CardService;
 
 @RestController
-@RequestMapping("/{userId}/cards")
+@RequestMapping("/user/{userId}/cards")
 public class CardController {
 	@Autowired
-	private ServiceCard<Card, Long> serviceCard;
+	private CardService<Card, Long> cardService;
 
 	@GetMapping("/{CardId}")
 	public Card getCard(@PathVariable String userId, @PathVariable String CardId) {
-		return (serviceCard.getCard(Long.parseLong(CardId)));
+		return (cardService.getCard(Long.parseLong(CardId)));
 	}
 
 
@@ -22,25 +22,25 @@ public class CardController {
 	                             @RequestParam Long idFromCard,
                                  @RequestParam Long idOnCard,
                                  @RequestParam Long sum) {
-		return (serviceCard.transferMoney(idFromCard, idOnCard, sum));
+		return (cardService.transferMoney(idFromCard, idOnCard, sum));
 	}
 
 	@PostMapping("/new-card")
 	public Card createNewCard(@PathVariable String userId,
 	                          @RequestParam String name,
 	                          @RequestParam String lastName) {
-		return (serviceCard.createNewCard(name, lastName));
+		return (cardService.createNewCard(name, lastName));
 	}
 
 	@PutMapping("/balance/recharge-the-balance")
 	public Card replenishTheBalance(@PathVariable String userId,
 									@RequestParam Card card, Long incBy) {
-		return (serviceCard.replenishBalance(card, incBy));
+		return (cardService.replenishBalance(card, incBy));
 	}
 
 	@PutMapping("/balance/{cardId}")
 	public Long getBalanceCard(@PathVariable String userId,
 	                           @PathVariable String cardId) {
-		return (serviceCard.getBalanceCard(Long.parseLong(cardId)));
+		return (cardService.getBalanceCard(Long.parseLong(cardId)));
 	}
 }

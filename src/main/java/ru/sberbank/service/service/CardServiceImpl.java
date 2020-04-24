@@ -6,7 +6,7 @@ import ru.sberbank.service.domain.Card;
 import ru.sberbank.service.repos.CardRepository;
 
 @Service
-public class ServiceCardImpl implements ServiceCard<Card, Long>{
+public class CardServiceImpl implements CardService<Card, Long> {
 	@Autowired
 	private CardRepository cardRepository;
 
