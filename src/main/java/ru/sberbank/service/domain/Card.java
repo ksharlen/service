@@ -1,20 +1,25 @@
 package ru.sberbank.service.domain;
 
-public class Card {
-	private static Long NUMBER = 0L;
+import javax.persistence.*;
 
-	Long id;
-	Long balance;
-	String username;
-	Long userId;
+@Entity
+@Table(name = "cards")
+public class Card {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	private Long balance;
+	private String username;
+	private String lastName;
+	private Long userId;
 
 	public Card() {
-		++NUMBER;
 	}
 
-	public Card(Long balance, String username) {
-		this.id = NUMBER;
-		this.balance = balance;
+	public Card(String username, String lastName) {
+		this.balance = 0L;
+		this.lastName = lastName;
 		this.username = username;
 	}
 
@@ -44,5 +49,31 @@ public class Card {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public boolean isNotThanLess(Long sum) {
+		return (this.balance >= sum);
+	}
+
+	public boolean increaseBalance(Long incBy) {
+		this.balance += incBy;
+		return (true);
+	}
+
+	public boolean decreaseBalance(Long decBy) {
+		if (decBy > this.balance) {
+			return (false);
+		} else {
+			this.balance -= decBy;
+			return (true);
+		}
 	}
 }

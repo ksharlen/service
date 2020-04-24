@@ -1,7 +1,6 @@
 package ru.sberbank.service.service;
 
-import ru.sberbank.service.domain.User;
-
-public interface UserService {
-	User registration(User user);
+public interface UserService<U, C> {
+	U registration(U user);
+	boolean addNewCard(U user, C card);
 }
