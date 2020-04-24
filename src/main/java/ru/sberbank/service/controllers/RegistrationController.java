@@ -2,6 +2,7 @@ package ru.sberbank.service.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.sberbank.service.domain.Card;
 import ru.sberbank.service.domain.User;
 import ru.sberbank.service.service.UserService;
 
@@ -9,7 +10,7 @@ import ru.sberbank.service.service.UserService;
 @RequestMapping("/registration")
 public class RegistrationController {
 	@Autowired
-	private UserService userService;
+	private UserService<User, Card> userService;
 
 	@PostMapping("/create")
 	public User regUser(@RequestBody User user) {
