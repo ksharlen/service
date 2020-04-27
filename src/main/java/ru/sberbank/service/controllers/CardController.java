@@ -1,25 +1,28 @@
 package ru.sberbank.service.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.service.dto.*;
 import ru.sberbank.service.service.CardServiceImpl;
 
 @RestController
-@RequestMapping("/{login}/cards")
+@RequestMapping//("/{login}/cards")
 public class CardController {
-	@Autowired
-	private CardServiceImpl cardService;
+//	@Autowired
+	private final CardServiceImpl cardService;
+
+	public CardController(CardServiceImpl cardService) {
+		this.cardService = cardService;
+	}
 
 	// TODO: 27.04.2020 в разработке
-	@PostMapping("/new/")
+	@PostMapping("/{login}/new/")
 	public CardDto newCard(@PathVariable String login,
 	                       @RequestBody NewCardDto newCardDto) {
 		return new CardDto();
 	}
 
 	// TODO: 27.04.2020 в разработке
-	@PutMapping(name = "/{cardId}", params = "op=replenish")
+	@PutMapping(value = "/{login}/{cardId}/", params = "op=replenish")
 	public CardDto replenishCard(@PathVariable String login,
 	                             @PathVariable String cardId,
 	                             @RequestBody ReplenishCardDto replenishCardDto) {
@@ -28,9 +31,9 @@ public class CardController {
 	}
 
 	// TODO: 27.04.2020 в разработке
-	@PutMapping(name = "/{cardId}", params = "op=transfer")
-	public CardDto transfer(@PathVariable String login,
-							@PathVariable String cardId,
+	@PutMapping(value = "/{login}/cards/{cardId}", params = "op=transfer")
+	public CardDto transfer(@PathVariable(name = "login") String login,
+							@PathVariable(name = "cardId") Long cardId,
 							@RequestBody TransferDto transferDto) {
 		return (new CardDto());
 	}
@@ -38,8 +41,8 @@ public class CardController {
 	// TODO: 27.04.2020 в разработке
 	//возможно еще будет добавлен параметр для проверки токена, но это не точно
 	//я даже не уверен что знаю что такое токен))
-	@GetMapping(name = "/{cardId}", params = "op=view")
-	public BalanceDto viewBalanceCard(@PathVariable String cardId) {
-		return cardService.viewBalance(Long.parseLong(cardId));
+	@GetMapping(value = "/{login}/{cardId}", params = "op=view")
+	public BalanceDto viewBalanceCard(@PathVariable String login, @PathVariable(name = "cardId") Long cardId) {
+		return cardService.viewBalance(cardId);
 	}
 }

@@ -17,11 +17,14 @@ public class RegistrationServiceImpl implements RegistrationService<Registration
 	private UserRepository userRepository;
 
 	@Override
+//	@ExceptionHandler({DuplicateRecordException.class})
 	public UserDto registration(RegistrationDto newUser) throws DuplicateRecordException {
+		if (userRepository.findUserByLogin(newUser.getLogin()) != null) {
+			throw new DuplicateRecordException("Такая запись уже существует");
+		} else {
 		User user = new User(newUser.getName(), newUser.getLastName(), newUser.getLogin(), newUser.getPassword());
-		if (userRepository.findUserByLogin(newUser.getLogin()) != null)
-			throw new DuplicateRecordException("Такой пользователь уже существует");
-		registrationRepo.save(user); // TODO: 27.04.2020 нужно проверить нет ли уже такого пользователя
+			registrationRepo.save(user); // TODO: 27.04.2020 нужно проверить нет ли уже такого пользователя
 		return (new UserDto(user.getName(), user.getLastName(), user.getLogin(), user.getPassword()));
+		}
 	}
 }

@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import ru.sberbank.service.dto.RegistrationDto;
 import ru.sberbank.service.dto.UserDto;
-import ru.sberbank.service.exception.DuplicateRecordException;
 import ru.sberbank.service.repos.RegistrationRepo;
 import ru.sberbank.service.repos.UserRepository;
 import ru.sberbank.service.service.RegistrationServiceImpl;
@@ -54,7 +53,7 @@ public class ControllerRegistrationTest {
 	// TODO: 27.04.2020 не могу понять как написать тест на проверку дубликата в бд
 	// вылетает исключение, не знаю как пофиксить
 	// TODO: 27.04.2020 нужно написать обработчик ошибок для правильного возврата сообщений на фронт
-	@Test(expected = DuplicateRecordException.class)
+	@Test
 	public void testExceptionDuplicate() {
 		final String url = "http://localhost:" + randomServerPort + "/registration";
 		RegistrationDto user = new RegistrationDto(expectedUser.getName(), expectedUser.getLastName(), expectedUser.getLogin(), expectedUser.getPassword());

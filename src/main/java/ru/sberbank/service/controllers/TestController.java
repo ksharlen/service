@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.sberbank.service.dto.RegistrationDto;
 import ru.sberbank.service.dto.UserDto;
 import ru.sberbank.service.entity.User;
+import ru.sberbank.service.exception.DuplicateRecordException;
 import ru.sberbank.service.repos.UserRepository;
 import ru.sberbank.service.service.RegistrationServiceImpl;
 
@@ -36,10 +37,11 @@ public class TestController {
 		List<User> users = userRepository.findAll();
 		List<UserDto> usersDto = new ArrayList<>();
 
-		for (User user : users) {
-			usersDto.add(userToUserDto(user));
-		}
-		return usersDto;
+		throw new DuplicateRecordException("this is error");
+//		for (User user : users) {
+//			usersDto.add(userToUserDto(user));
+//		}
+//		return usersDto;
 	}
 
 	private UserDto userToUserDto(User user) {
