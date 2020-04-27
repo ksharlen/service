@@ -1,8 +1,11 @@
 package ru.sberbank.service.service;
 
-public interface CardService<C, S> {
-	C createNewCard(String name, String lastName);
-	C transferMoney(S fromCard, S onCard, S sum);
-	C replenishBalance(C card, S increaseBy);
-	S getBalanceCard(S idCard);
+import ru.sberbank.service.dto.CardDto;
+import ru.sberbank.service.dto.ReplenishCardDto;
+import ru.sberbank.service.dto.TransferDto;
+
+public interface CardService {
+	CardDto replenish(ReplenishCardDto replenishCardDto, Long idCard);
+	CardDto transfer(TransferDto transferDto, Long idCard);
+	CardDto viewBalance(Long idCard);
 }

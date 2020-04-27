@@ -7,19 +7,19 @@ import ru.sberbank.service.dto.ReplenishCardDto;
 import ru.sberbank.service.dto.TransferDto;
 
 @RestController
-@RequestMapping("/{userId}/cards")
+@RequestMapping("/{login}/cards")
 public class CardController {
 
 	// TODO: 27.04.2020 в разработке
 	@PostMapping("/new/")
-	public CardDto newCard(@PathVariable String userId,
+	public CardDto newCard(@PathVariable String login,
 	                       @RequestBody NewCardDto newCardDto) {
 		return new CardDto();
 	}
 
 	// TODO: 27.04.2020 в разработке
 	@PutMapping(name = "/{cardId}", params = "op=replenish")
-	public CardDto replenishCard(@PathVariable String userId,
+	public CardDto replenishCard(@PathVariable String login,
 	                             @PathVariable String cardId,
 	                             @RequestBody ReplenishCardDto replenishCardDto) {
 		return new CardDto();
@@ -27,7 +27,7 @@ public class CardController {
 
 	// TODO: 27.04.2020 в разработке
 	@PutMapping(name = "/{cardId}", params = "op=transfer")
-	public CardDto transfer(@PathVariable String userId,
+	public CardDto transfer(@PathVariable String login,
 							@PathVariable String cardId,
 							@RequestBody TransferDto transferDto) {
 		return (new CardDto());

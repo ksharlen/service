@@ -11,7 +11,7 @@ public class UserServiceImpl implements UserService<UserDto> {
 	UserRepository userRepository;
 
 	@Override
-	public UserDto registration(UserDto user) {
+	public UserDto addNewCard(UserDto user) {
 		return null;
 	}
 }

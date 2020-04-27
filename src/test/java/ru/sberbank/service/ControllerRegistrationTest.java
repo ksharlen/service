@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import ru.sberbank.service.dto.RegistrationDto;
 import ru.sberbank.service.dto.UserDto;
 import ru.sberbank.service.exception.DuplicateRecordException;
-import ru.sberbank.service.repos.RegistrationRepository;
+import ru.sberbank.service.repos.RegistrationRepo;
 import ru.sberbank.service.repos.UserRepository;
 import ru.sberbank.service.service.RegistrationServiceImpl;
 
@@ -25,7 +25,7 @@ public class ControllerRegistrationTest {
 	private int randomServerPort;
 
 	@Autowired
-	private RegistrationRepository registrationRepository;
+	private RegistrationRepo registrationRepo;
 	@Autowired
 	private RegistrationServiceImpl registrationService;
 	@Autowired
