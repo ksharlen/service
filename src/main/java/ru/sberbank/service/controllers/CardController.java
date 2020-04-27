@@ -1,14 +1,15 @@
 package ru.sberbank.service.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.sberbank.service.dto.CardDto;
-import ru.sberbank.service.dto.NewCardDto;
-import ru.sberbank.service.dto.ReplenishCardDto;
-import ru.sberbank.service.dto.TransferDto;
+import ru.sberbank.service.dto.*;
+import ru.sberbank.service.service.CardServiceImpl;
 
 @RestController
 @RequestMapping("/{login}/cards")
 public class CardController {
+	@Autowired
+	private CardServiceImpl cardService;
 
 	// TODO: 27.04.2020 в разработке
 	@PostMapping("/new/")
@@ -22,7 +23,8 @@ public class CardController {
 	public CardDto replenishCard(@PathVariable String login,
 	                             @PathVariable String cardId,
 	                             @RequestBody ReplenishCardDto replenishCardDto) {
-		return new CardDto();
+		// TODO: 27.04.2020 валидация пользователя
+		return cardService.replenish(replenishCardDto, Long.parseLong(cardId));
 	}
 
 	// TODO: 27.04.2020 в разработке
@@ -37,7 +39,7 @@ public class CardController {
 	//возможно еще будет добавлен параметр для проверки токена, но это не точно
 	//я даже не уверен что знаю что такое токен))
 	@GetMapping(name = "/{cardId}", params = "op=view")
-	public CardDto getInfoCard() {
-		return new CardDto();
+	public BalanceDto viewBalanceCard(@PathVariable String cardId) {
+		return cardService.viewBalance(Long.parseLong(cardId));
 	}
 }

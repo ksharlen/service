@@ -53,6 +53,7 @@ public class ControllerRegistrationTest {
 
 	// TODO: 27.04.2020 не могу понять как написать тест на проверку дубликата в бд
 	// вылетает исключение, не знаю как пофиксить
+	// TODO: 27.04.2020 нужно написать обработчик ошибок для правильного возврата сообщений на фронт
 	@Test(expected = DuplicateRecordException.class)
 	public void testExceptionDuplicate() {
 		final String url = "http://localhost:" + randomServerPort + "/registration";

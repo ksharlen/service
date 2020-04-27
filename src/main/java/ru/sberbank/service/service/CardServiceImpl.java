@@ -2,6 +2,7 @@ package ru.sberbank.service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.sberbank.service.dto.BalanceDto;
 import ru.sberbank.service.dto.CardDto;
 import ru.sberbank.service.dto.ReplenishCardDto;
 import ru.sberbank.service.dto.TransferDto;
@@ -13,6 +14,7 @@ import ru.sberbank.service.repos.TransactionTransferRepo;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+// TODO: 27.04.2020 наследоваться от астрактного DTO
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -33,7 +35,7 @@ public class CardServiceImpl implements CardService {
 		card = cardRepo.save(card);
 		TransactionReplenishImpl transaction = createTransactionReplenish(replenishCardDto, card);
 		transactionReplenishRepo.save(transaction);
-		return cardToCardDto(card);
+		return convertCardToCardDto(card);
 	}
 
 	@Override
@@ -45,14 +47,14 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public CardDto viewBalance(Long idCard) {
+	public BalanceDto viewBalance(Long idCard) {
 		Card card = cardRepo.getCardById(idCard);
 		// TODO: 27.04.2020 если нет, бросить ошибку
-		return cardToCardDto(card);
+		return new BalanceDto(card.getBalance());
 	}
 
 	// TODO: 27.04.2020 временное решение пока не воткнул маппер
-	private CardDto cardToCardDto(Card card) {
+	private CardDto convertCardToCardDto(Card card) {
 		return new CardDto(card.getId(), card.getBalance());
 	}
 
