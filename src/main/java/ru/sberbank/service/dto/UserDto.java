@@ -47,4 +47,25 @@ public class UserDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof UserDto) {
+			UserDto user = (UserDto) obj;
+
+			return this.name.equals(user.getName()) &&
+					this.lastName.equals(user.getLastName()) &&
+					this.login.equals(user.getLogin()) &&
+					this.password.equals(user.getPassword());
+		}
+		return false;
+	}
 }

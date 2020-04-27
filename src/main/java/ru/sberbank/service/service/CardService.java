@@ -5,5 +5,4 @@ public interface CardService<C, S> {
 	C transferMoney(S fromCard, S onCard, S sum);
 	C replenishBalance(C card, S increaseBy);
 	S getBalanceCard(S idCard);
-	C getCard(S idCard);
 }

@@ -1,6 +1,7 @@
 package ru.sberbank.service.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,12 +30,12 @@ public class User {
 	public User() {
 	}
 
-	public User(String name, String lastName, String login, String password, Set<Card> cards) {
+	public User(String name, String lastName, String login, String password) {
 		this.name = name;
 		this.lastName = lastName;
 		this.login = login;
 		this.password = password;
-		this.cards = cards;
+		this.cards = new HashSet<>();
 	}
 
 

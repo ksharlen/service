@@ -10,42 +10,29 @@ public class CardServiceImpl implements CardService<Card, Long> {
 	@Autowired
 	private CardRepository cardRepository;
 
+	// TODO: 27.04.2020 временное решение
 	@Override
 	public Card createNewCard(String name, String lastName) {
-		Card card = new Card(name, lastName);
-		cardRepository.save(card);
-		return (card);
+		return null;
 	}
 
 	@Override
 	public Card transferMoney(Long fromCard, Long onCard, Long sum) {
-		Card cardFrom = cardRepository.getCardById(fromCard);
-		Card cardOn = cardRepository.getCardById(onCard);
-		if (cardFrom.isNotThanLess(sum)) {
-			cardFrom.decreaseBalance(sum);
-			cardOn.increaseBalance(sum);
-			cardRepository.save(cardFrom);
-			cardRepository.save(cardOn);
-		} else {
-			//todo: exception
-		}
-		return (cardFrom);
+		return null;
 	}
 
 	@Override
 	public Card replenishBalance(Card card, Long increaseBy) {
-		card.increaseBalance(increaseBy);
-		cardRepository.save(card);
-		return (cardRepository.getCardById(card.getId()));
+		return null;
 	}
 
 	@Override
 	public Long getBalanceCard(Long idCard) {
-		return (cardRepository.getCardById(idCard).getBalance());
+		return null;
 	}
 
 	@Override
 	public Card getCard(Long idCard) {
-		return (cardRepository.getCardById(idCard));
+		return null;
 	}
 }
