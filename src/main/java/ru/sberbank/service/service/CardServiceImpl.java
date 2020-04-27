@@ -2,7 +2,7 @@ package ru.sberbank.service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sberbank.service.domain.Card;
+import ru.sberbank.service.entity.Card;
 import ru.sberbank.service.repos.CardRepository;
 
 @Service

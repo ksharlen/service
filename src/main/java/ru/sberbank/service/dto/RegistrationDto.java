@@ -1,28 +1,17 @@
-package ru.sberbank.service.domain;
+package ru.sberbank.service.dto;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "users")
-public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-
+public class RegistrationDto {
 	private String name;
 	private String lastName;
-	private String patronymic;
-
 	private String login;
 	private String password;
 
-	public User() {
+	public RegistrationDto() {
 	}
 
-	public User(String name, String lastName, String patronymic, String login, String password) {
+	public RegistrationDto(String name, String lastName, String login, String password) {
 		this.name = name;
 		this.lastName = lastName;
-		this.patronymic = patronymic;
 		this.login = login;
 		this.password = password;
 	}
@@ -41,22 +30,6 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getPatronymic() {
-		return patronymic;
-	}
-
-	public void setPatronymic(String patronymic) {
-		this.patronymic = patronymic;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getLogin() {
