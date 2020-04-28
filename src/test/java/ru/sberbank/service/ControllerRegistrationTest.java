@@ -9,15 +9,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.WebApplicationContext;
 import ru.sberbank.service.dto.RegistrationDto;
 import ru.sberbank.service.dto.UserDto;
 import ru.sberbank.service.repos.RegistrationRepo;
-import ru.sberbank.service.repos.UserRepository;
+import ru.sberbank.service.repos.UserRepo;
 import ru.sberbank.service.service.RegistrationServiceImpl;
 
-@RunWith(SpringRunner.class)
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ControllerRegistrationTest {
 	@LocalServerPort
@@ -28,14 +33,20 @@ public class ControllerRegistrationTest {
 	@Autowired
 	private RegistrationServiceImpl registrationService;
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepo userRepo;
 
 	private final RestTemplate restTemplate = new RestTemplate();
 	private final UserDto expectedUser = new UserDto("Alex", "Akinin", "miily", "123");
 
+	@Autowired
+	private WebApplicationContext wac;
+
+	private MockMvc mockMvc;
+
 	@Before
 	public void init() {
-		userRepository.deleteAll();
+		userRepo.deleteAll();
+		mockMvc = webAppContextSetup(this.wac).build();
 	}
 
 	@Test
@@ -53,7 +64,7 @@ public class ControllerRegistrationTest {
 	// TODO: 27.04.2020 не могу понять как написать тест на проверку дубликата в бд
 	// вылетает исключение, не знаю как пофиксить
 	// TODO: 27.04.2020 нужно написать обработчик ошибок для правильного возврата сообщений на фронт
-	@Test
+	@Test // TODO: 28.04.2020 временное решение
 	public void testExceptionDuplicate() {
 		final String url = "http://localhost:" + randomServerPort + "/registration";
 		RegistrationDto user = new RegistrationDto(expectedUser.getName(), expectedUser.getLastName(), expectedUser.getLogin(), expectedUser.getPassword());

@@ -8,7 +8,7 @@ import ru.sberbank.service.dto.RegistrationDto;
 import ru.sberbank.service.dto.UserDto;
 import ru.sberbank.service.entity.User;
 import ru.sberbank.service.exception.DuplicateRecordException;
-import ru.sberbank.service.repos.UserRepository;
+import ru.sberbank.service.repos.UserRepo;
 import ru.sberbank.service.service.RegistrationServiceImpl;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class TestController {
 	@Autowired
 	private RegistrationServiceImpl registrationService;
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepo userRepo;
 
 	@GetMapping
 	public void addUser() {
@@ -34,7 +34,7 @@ public class TestController {
 
 	@GetMapping("/list")
 	public List<UserDto> getUser() {
-		List<User> users = userRepository.findAll();
+		List<User> users = userRepo.findAll();
 		List<UserDto> usersDto = new ArrayList<>();
 
 		throw new DuplicateRecordException("this is error");

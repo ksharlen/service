@@ -4,6 +4,7 @@ import ru.sberbank.service.entity.transaction.impl.TransactionReplenishImpl;
 import ru.sberbank.service.entity.transaction.impl.TransactionTransferImpl;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,9 +17,12 @@ public class Card {
 	@Column(name = "balance")
 	private Long balance;
 
+	@Column(name = "date_of_create")
+	private final Date date;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
-	private User user;
+	private final User user;
 
 	@OneToMany(mappedBy = "card")
 	private List<TransactionReplenishImpl> transactionReplenish;
@@ -27,7 +31,10 @@ public class Card {
 	@OneToMany(mappedBy = "card")
 	private List<TransactionTransferImpl> transactionTransfer;
 
-	public Card() {
+	public Card(User user) {
+		this.balance = 0L;
+		this.user = user;
+		this.date = new Date();
 	}
 
 	public Long getBalance() {
@@ -44,5 +51,25 @@ public class Card {
 
 	public User getUser() {
 		return user;
+	}
+
+	public List<TransactionReplenishImpl> getTransactionReplenish() {
+		return transactionReplenish;
+	}
+
+	public void setTransactionReplenish(List<TransactionReplenishImpl> transactionReplenish) {
+		this.transactionReplenish = transactionReplenish;
+	}
+
+	public List<TransactionTransferImpl> getTransactionTransfer() {
+		return transactionTransfer;
+	}
+
+	public void setTransactionTransfer(List<TransactionTransferImpl> transactionTransfer) {
+		this.transactionTransfer = transactionTransfer;
+	}
+
+	public Date getDate() {
+		return date;
 	}
 }

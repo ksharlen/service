@@ -15,19 +15,20 @@ public class CardController {
 	}
 
 	// TODO: 27.04.2020 в разработке
-	@PostMapping("/{login}/new/")
+	@PostMapping(value = "/{login}/cards/new/")
 	public CardDto newCard(@PathVariable String login,
 	                       @RequestBody NewCardDto newCardDto) {
-		return new CardDto();
+		// TODO: 28.04.2020 тут будет сервис валидации
+		return cardService.addNewCard(newCardDto, login);
 	}
 
 	// TODO: 27.04.2020 в разработке
 	@PutMapping(value = "/{login}/{cardId}/", params = "op=replenish")
 	public CardDto replenishCard(@PathVariable String login,
-	                             @PathVariable String cardId,
+	                             @PathVariable Long cardId,
 	                             @RequestBody ReplenishCardDto replenishCardDto) {
 		// TODO: 27.04.2020 валидация пользователя
-		return cardService.replenish(replenishCardDto, Long.parseLong(cardId));
+		return cardService.replenish(replenishCardDto, cardId);
 	}
 
 	// TODO: 27.04.2020 в разработке

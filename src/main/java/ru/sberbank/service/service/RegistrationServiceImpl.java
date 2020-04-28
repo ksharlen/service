@@ -7,19 +7,19 @@ import ru.sberbank.service.dto.UserDto;
 import ru.sberbank.service.entity.User;
 import ru.sberbank.service.exception.DuplicateRecordException;
 import ru.sberbank.service.repos.RegistrationRepo;
-import ru.sberbank.service.repos.UserRepository;
+import ru.sberbank.service.repos.UserRepo;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService<RegistrationDto, UserDto>{
 	@Autowired
 	private RegistrationRepo registrationRepo;
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepo userRepo;
 
 	@Override
 //	@ExceptionHandler({DuplicateRecordException.class})
 	public UserDto registration(RegistrationDto newUser) throws DuplicateRecordException {
-		if (userRepository.findUserByLogin(newUser.getLogin()) != null) {
+		if (userRepo.findUserByLogin(newUser.getLogin()) != null) {
 			throw new DuplicateRecordException("Такая запись уже существует");
 		} else {
 		User user = new User(newUser.getName(), newUser.getLastName(), newUser.getLogin(), newUser.getPassword());

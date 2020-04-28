@@ -4,6 +4,7 @@ import ru.sberbank.service.entity.Card;
 import ru.sberbank.service.entity.transaction.Transaction;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "transaction_transfer")
@@ -11,6 +12,9 @@ public class TransactionTransferImpl implements Transaction {
 	@Id
 	@GeneratedValue
 	private Long id;
+
+	@Column(name = "date")
+	private final Date date;
 
 	@Column(name = "id_card_from", unique = true)
 	private Long idCardFrom;
@@ -34,9 +38,11 @@ public class TransactionTransferImpl implements Transaction {
 	private Card card;
 
 	public TransactionTransferImpl() {
+		this.date = new Date();
 	}
 
 	public TransactionTransferImpl(Long idCardFrom, Long idCardTo, Long transferAmount, Long balanceFromCardAfterTransfer, Card card) {
+		this();
 		this.idCardFrom = idCardFrom;
 		this.idCardTo = idCardTo;
 		this.transferAmount = transferAmount;
@@ -66,5 +72,13 @@ public class TransactionTransferImpl implements Transaction {
 
 	public Card getCard() {
 		return card;
+	}
+
+	public void setCard(Card card) {
+		this.card = card;
+	}
+
+	public Date getDate() {
+		return date;
 	}
 }

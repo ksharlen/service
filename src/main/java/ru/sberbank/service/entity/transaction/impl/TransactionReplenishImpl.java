@@ -6,6 +6,7 @@ import ru.sberbank.service.entity.transaction.Transaction;
 import javax.persistence.*;
 import java.util.Date;
 
+// TODO: 28.04.2020 пересмотреть
 @Entity
 @Table(name = "transaction_replenish")
 public class TransactionReplenishImpl implements Transaction {
@@ -13,8 +14,8 @@ public class TransactionReplenishImpl implements Transaction {
 	@GeneratedValue
 	private Long id;
 
-	@Column(name = "data")
-	private Date date;
+	@Column(name = "date")
+	private final Date date;
 
 	@Column(name = "increased_by")
 	private Long incBy;
@@ -27,10 +28,11 @@ public class TransactionReplenishImpl implements Transaction {
 	private Card card;
 
 	public TransactionReplenishImpl() {
+		this.date = new Date();
 	}
 
-	public TransactionReplenishImpl(Date date, Long incBy, Long balanceAfter, Card card) {
-		this.date = date;
+	public TransactionReplenishImpl(Long incBy, Long balanceAfter, Card card) {
+		this();
 		this.incBy = incBy;
 		this.balanceAfter = balanceAfter;
 		this.card = card;
