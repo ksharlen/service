@@ -4,7 +4,8 @@ public class UserDto {
 	private String name;
 	private String lastName;
 	private String login;
-	private String password; //TODO: временное явление
+	// TODO: 28.04.2020 временное явление
+	private String password;
 
 	public UserDto() {
 	}

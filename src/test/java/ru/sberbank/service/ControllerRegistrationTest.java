@@ -17,7 +17,7 @@ import ru.sberbank.service.dto.RegistrationDto;
 import ru.sberbank.service.dto.UserDto;
 import ru.sberbank.service.repos.RegistrationRepo;
 import ru.sberbank.service.repos.UserRepo;
-import ru.sberbank.service.service.RegistrationServiceImpl;
+import ru.sberbank.service.service.impl.RegistrationServiceImpl;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 

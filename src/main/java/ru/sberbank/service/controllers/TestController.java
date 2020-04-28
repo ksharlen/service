@@ -9,7 +9,7 @@ import ru.sberbank.service.dto.UserDto;
 import ru.sberbank.service.entity.User;
 import ru.sberbank.service.exception.DuplicateRecordException;
 import ru.sberbank.service.repos.UserRepo;
-import ru.sberbank.service.service.RegistrationServiceImpl;
+import ru.sberbank.service.service.impl.RegistrationServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

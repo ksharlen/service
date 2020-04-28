@@ -2,23 +2,25 @@ package ru.sberbank.service.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.service.dto.*;
-import ru.sberbank.service.service.CardServiceImpl;
+import ru.sberbank.service.service.ValidService;
+import ru.sberbank.service.service.impl.CardServiceImpl;
 
 @RestController
-@RequestMapping//("/{login}/cards")
+@RequestMapping
 public class CardController {
-//	@Autowired
 	private final CardServiceImpl cardService;
 
-	public CardController(CardServiceImpl cardService) {
+	private final ValidService validService;
+
+	public CardController(CardServiceImpl cardService, ValidService validService) {
 		this.cardService = cardService;
+		this.validService = validService;
 	}
 
-	// TODO: 27.04.2020 в разработке
 	@PostMapping(value = "/{login}/cards/new/")
 	public CardDto newCard(@PathVariable String login,
 	                       @RequestBody NewCardDto newCardDto) {
-		// TODO: 28.04.2020 тут будет сервис валидации
+		validService.userIsFind(login);
 		return cardService.addNewCard(newCardDto, login);
 	}
 
@@ -27,7 +29,9 @@ public class CardController {
 	public CardDto replenishCard(@PathVariable String login,
 	                             @PathVariable Long cardId,
 	                             @RequestBody ReplenishCardDto replenishCardDto) {
-		// TODO: 27.04.2020 валидация пользователя
+		// TODO: 28.04.2020 Проверка токена и все такое
+		validService.cardIsFind(cardId);
+		validService.sumIsValid(replenishCardDto.getIncreaseSumBy());
 		return cardService.replenish(replenishCardDto, cardId);
 	}
 
@@ -36,14 +40,16 @@ public class CardController {
 	public CardDto transfer(@PathVariable(name = "login") String login,
 							@PathVariable(name = "cardId") Long cardId,
 							@RequestBody TransferDto transferDto) {
-		return (new CardDto());
+		validService.cardIsFind(transferDto.getIdCardByTo());
+		validService.cardIsFind(cardId);
+		validService.sumIsValid(transferDto.getTransferSum());
+		return (cardService.transfer(transferDto, cardId));
 	}
 
 	// TODO: 27.04.2020 в разработке
-	//возможно еще будет добавлен параметр для проверки токена, но это не точно
-	//я даже не уверен что знаю что такое токен))
-	@GetMapping(value = "/{login}/{cardId}", params = "op=view")
+	@GetMapping(value = "/{login}/{cardId}", params = "op=balance")
 	public BalanceDto viewBalanceCard(@PathVariable String login, @PathVariable(name = "cardId") Long cardId) {
+		validService.cardIsFind(cardId);
 		return cardService.viewBalance(cardId);
 	}
 }

@@ -1,4 +1,4 @@
-package ru.sberbank.service.service;
+package ru.sberbank.service.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,9 +8,10 @@ import ru.sberbank.service.entity.User;
 import ru.sberbank.service.exception.DuplicateRecordException;
 import ru.sberbank.service.repos.RegistrationRepo;
 import ru.sberbank.service.repos.UserRepo;
+import ru.sberbank.service.service.RegistrationService;
 
 @Service
-public class RegistrationServiceImpl implements RegistrationService<RegistrationDto, UserDto>{
+public class RegistrationServiceImpl implements RegistrationService<RegistrationDto, UserDto> {
 	@Autowired
 	private RegistrationRepo registrationRepo;
 	@Autowired

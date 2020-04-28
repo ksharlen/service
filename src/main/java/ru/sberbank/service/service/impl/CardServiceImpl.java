@@ -1,4 +1,4 @@
-package ru.sberbank.service.service;
+package ru.sberbank.service.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +8,7 @@ import ru.sberbank.service.entity.User;
 import ru.sberbank.service.exception.BadRequestException;
 import ru.sberbank.service.repos.CardRepo;
 import ru.sberbank.service.repos.UserRepo;
+import ru.sberbank.service.service.CardService;
 
 import javax.transaction.Transactional;
 // TODO: 27.04.2020 наследоваться от астрактного DTO
@@ -21,16 +22,11 @@ public class CardServiceImpl implements CardService {
 	@Autowired
 	private UserRepo userRepo;
 	@Autowired
-	private ValidService validService;
-	@Autowired
 	private TransactionServiceImpl transactionService;
 
 	@Override
 	@Transactional
 	public CardDto replenish(ReplenishCardDto replenishCardDto, Long idCard) {
-		validService.cardIsFind(idCard);
-		validService.sumIsValid(replenishCardDto.getIncreaseSumBy());
-
 		Card card = cardRepo.findCardById(idCard);
 		card.setBalance(card.getBalance() + replenishCardDto.getIncreaseSumBy());
 		card = cardRepo.save(card);
@@ -44,10 +40,6 @@ public class CardServiceImpl implements CardService {
 	@Override
 	@Transactional
 	public CardDto transfer(TransferDto transferDto, Long idCard) {
-		validService.cardIsFind(transferDto.getIdCardByTo());
-		validService.cardIsFind(idCard);
-		validService.sumIsValid(transferDto.getTransferSum());
-
 		if (transferDto.getIdCardByTo().equals(idCard)) {
 			throw new BadRequestException("Невозможно сделать перевод, номера карт совпадают");
 		}
@@ -68,7 +60,6 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public BalanceDto viewBalance(Long idCard) {
-		validService.cardIsFind(idCard);
 		return new BalanceDto(cardRepo.findCardById(idCard).getBalance());
 	}
 
@@ -77,8 +68,6 @@ public class CardServiceImpl implements CardService {
 	@Override
 	@Transactional
 	public CardDto addNewCard(NewCardDto newCardDto, String login) {
-		validService.userIsFind(login);
-
 		User user = userRepo.findUserByLogin(login);
 		Card card = new Card(user);
 		card = cardRepo.save(card);

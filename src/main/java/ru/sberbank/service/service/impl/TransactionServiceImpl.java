@@ -1,4 +1,4 @@
-package ru.sberbank.service.service;
+package ru.sberbank.service.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.sberbank.service.entity.Card;
@@ -6,6 +6,7 @@ import ru.sberbank.service.entity.transaction.impl.TransactionReplenishImpl;
 import ru.sberbank.service.entity.transaction.impl.TransactionTransferImpl;
 import ru.sberbank.service.repos.TransactionReplenishRepo;
 import ru.sberbank.service.repos.TransactionTransferRepo;
+import ru.sberbank.service.service.TransactionService;
 
 import javax.transaction.Transactional;
 

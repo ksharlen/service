@@ -4,4 +4,5 @@ public interface ValidService {
 	boolean userIsFind(String login);
 	boolean sumIsValid(Long sum);
 	boolean cardIsFind(Long cardId);
+	boolean userAlreadyExist(String login);
 }

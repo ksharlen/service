@@ -44,6 +44,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 }
 
+// TODO: 28.04.2020 временное явление
 class ErrorResponse {
 	private String message;
 	private List<String> details;
