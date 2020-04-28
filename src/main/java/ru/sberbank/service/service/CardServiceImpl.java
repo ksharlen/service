@@ -8,8 +8,6 @@ import ru.sberbank.service.entity.User;
 import ru.sberbank.service.entity.transaction.Transaction;
 import ru.sberbank.service.entity.transaction.impl.TransactionReplenishImpl;
 import ru.sberbank.service.entity.transaction.impl.TransactionTransferImpl;
-import ru.sberbank.service.exception.BadRequestException;
-import ru.sberbank.service.exception.NotFoundException;
 import ru.sberbank.service.repos.CardRepo;
 import ru.sberbank.service.repos.TransactionReplenishRepo;
 import ru.sberbank.service.repos.TransactionTransferRepo;
@@ -31,17 +29,16 @@ public class CardServiceImpl implements CardService {
 	private TransactionTransferRepo transactionTransferRepo;
 	@Autowired
 	private UserRepo userRepo;
+	@Autowired
+	private ValidService validService;
 
 	@Override
 	@Transactional
 	public CardDto replenish(ReplenishCardDto replenishCardDto, Long idCard) {
-		Card card = cardRepo.getCardById(idCard);
-		if (card == null) {
-			throw new NotFoundException("Карта с таким id не найдена");
-		} else if (replenishCardDto.getIncreaseSumBy() <= 0) {
-			throw new BadRequestException("Указана неверная сумма для пополнения");
-		}
 		// TODO: 28.04.2020 перевести в новый сервис
+		validService.cardIsFind(idCard);
+		validService.sumIsValid(replenishCardDto.getIncreaseSumBy());
+		Card card = cardRepo.findCardById(idCard);
 		card.setBalance(card.getBalance() + replenishCardDto.getIncreaseSumBy());
 		TransactionReplenishImpl transaction = createTransactionReplenish(replenishCardDto, card);
 		putTransactionToCard(card, transaction);
@@ -61,20 +58,16 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public BalanceDto viewBalance(Long idCard) {
-		Card card = cardRepo.getCardById(idCard);
-		if (card == null) {
-			throw new NotFoundException("Карта с таким id не найдена");
-		}
+		validService.cardIsFind(idCard);
+		Card card = cardRepo.findCardById(idCard);
 		return new BalanceDto(card.getBalance());
 	}
 
 	@Override
 	@Transactional
 	public CardDto addNewCard(NewCardDto newCardDto, String login) {
+		validService.userIsFind(login);
 		User user = userRepo.findUserByLogin(login);
-		if (user == null) {
-			throw new NotFoundException("Пользователь с таким логином не найден");
-		}
 		Card card = new Card(user);
 		// TODO: 28.04.2020 надо ли пользователю добовлять новую карту
 		card = cardRepo.save(card);
