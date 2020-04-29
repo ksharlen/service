@@ -2,6 +2,8 @@ package ru.sberbank.service.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sberbank.service.dto.*;
 import ru.sberbank.service.entity.Card;
 import ru.sberbank.service.entity.User;
@@ -10,7 +12,6 @@ import ru.sberbank.service.repos.CardRepo;
 import ru.sberbank.service.repos.UserRepo;
 import ru.sberbank.service.service.CardService;
 
-import javax.transaction.Transactional;
 // TODO: 27.04.2020 наследоваться от астрактного DTO
 // TODO: 28.04.2020 необходимо разделить на два сервиса, один отвечает денежную обработку, второй за
 // TODO: манипуляции с картами
@@ -25,7 +26,7 @@ public class CardServiceImpl implements CardService {
 	private TransactionServiceImpl transactionService;
 
 	@Override
-	@Transactional
+	@Transactional(isolation = Isolation.SERIALIZABLE) // TODO: 29.04.2020 не уверен на счет serializable
 	public CardDto replenish(ReplenishCardDto replenishCardDto, Long idCard) {
 		Card card = cardRepo.findCardById(idCard);
 		card.setBalance(card.getBalance() + replenishCardDto.getIncreaseSumBy());
@@ -35,10 +36,8 @@ public class CardServiceImpl implements CardService {
 		return convertCardToCardDto(card);
 	}
 
-	// TODO: 27.04.2020 придумать как обработать два одновременных
-	// TODO: 27.04.2020 запроса на перевод
 	@Override
-	@Transactional
+	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public CardDto transfer(TransferDto transferDto, Long idCard) {
 		if (transferDto.getIdCardByTo().equals(idCard)) {
 			throw new BadRequestException("Невозможно сделать перевод, номера карт совпадают");
@@ -59,13 +58,13 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public BalanceDto viewBalance(Long idCard) {
 		return new BalanceDto(cardRepo.findCardById(idCard).getBalance());
 	}
 
-	// TODO: 28.04.2020 NewCardDto по факту пустой, он сделан для дальнейшего расширения, при котором пользователь
-	// TODO: захочет выбрать тип карты(например VISA) и внутри newCardDto это будет указано.
 	@Override
+	@Transactional
 	public CardDto addNewCard(NewCardDto newCardDto, String login) {
 		User user = userRepo.findUserByLogin(login);
 		Card card = new Card(newCardDto.getName(), newCardDto.getLastName(), user);

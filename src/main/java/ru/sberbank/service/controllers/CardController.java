@@ -26,18 +26,16 @@ public class CardController {
 		return cardService.addNewCard(newCardDto, login);
 	}
 
-	// TODO: 27.04.2020 в разработке
 	@PutMapping(value = "/{login}/cards/{cardId}", params = "op=replenish")
 	public CardDto replenishCard(@PathVariable String login,
 	                             @PathVariable Long cardId,
 	                             @RequestBody ReplenishCardDto replenishCardDto) {
-		// TODO: 28.04.2020 Проверка токена и все такое
 		validService.cardIsFind(cardId);
 		validService.sumIsValid(replenishCardDto.getIncreaseSumBy());
 		return cardService.replenish(replenishCardDto, cardId);
 	}
 
-	// TODO: 27.04.2020 в разработке
+
 	@PutMapping(value = "/{login}/cards/{cardId}", params = "op=transfer")
 	public CardDto transfer(@PathVariable(name = "login") String login,
 							@PathVariable(name = "cardId") Long cardId,
@@ -48,7 +46,6 @@ public class CardController {
 		return (cardService.transfer(transferDto, cardId));
 	}
 
-	// TODO: 27.04.2020 в разработке
 	@GetMapping(value = "/{login}/cards/{cardId}", params = "op=balance")
 	public BalanceDto viewBalanceCard(@PathVariable String login, @PathVariable(name = "cardId") Long cardId) {
 		validService.cardIsFind(cardId);

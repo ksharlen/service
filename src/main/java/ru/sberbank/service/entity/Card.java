@@ -33,7 +33,6 @@ public class Card {
 	@OneToMany(mappedBy = "card")
 	private List<TransactionReplenishImpl> transactionReplenish;
 
-	// TODO: 27.04.2020 подумать над коллекцией
 	@OneToMany(mappedBy = "card")
 	private List<TransactionTransferImpl> transactionTransfer;
 

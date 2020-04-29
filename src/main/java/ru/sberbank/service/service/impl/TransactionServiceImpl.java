@@ -20,8 +20,8 @@ public class TransactionServiceImpl implements TransactionService<Card, Long> {
 		this.transactionTransferRepo = transactionTransferRepo;
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public boolean transferTransaction(Card cardFrom, Card cardTo, Long sum) {
 		TransactionTransferImpl transactionTransfer = createTransactionTransfer(cardFrom, cardTo, sum);
 		transactionTransferRepo.save(transactionTransfer);
@@ -30,8 +30,8 @@ public class TransactionServiceImpl implements TransactionService<Card, Long> {
 		return true;
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public boolean replenishTransaction(Card card, Long sum) {
 		TransactionReplenishImpl transactionReplenish = createTransactionReplenish(card, sum);
 		transactionReplenishRepo.save(transactionReplenish);
