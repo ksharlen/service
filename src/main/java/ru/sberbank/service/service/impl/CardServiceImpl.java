@@ -50,7 +50,7 @@ public class CardServiceImpl implements CardService {
 
 		Card cardTo = cardRepo.findCardById(transferDto.getIdCardByTo());
 		cardFrom.setBalance(cardFrom.getBalance() - transferDto.getTransferSum());
-		cardTo.setBalance(cardTo.getBalance() + transferDto.getIdCardByTo());
+		cardTo.setBalance(cardTo.getBalance() + transferDto.getTransferSum());
 		cardFrom = cardRepo.save(cardFrom);
 		cardTo = cardRepo.save(cardTo);
 		transactionService.transferTransaction(cardFrom, cardTo, transferDto.getTransferSum());

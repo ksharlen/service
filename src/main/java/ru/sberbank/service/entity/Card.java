@@ -37,6 +37,13 @@ public class Card {
 	@OneToMany(mappedBy = "card")
 	private List<TransactionTransferImpl> transactionTransfer;
 
+	public Card() {
+		this.name = "";
+		this.lastName = "";
+		this.date = new Date();
+		this.user = null;
+	}
+
 	public Card(String name, String lastName, User user) {
 		this.balance = 0L;
 		this.user = user;

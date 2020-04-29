@@ -23,7 +23,7 @@ public class TransactionReplenishImpl implements Transaction {
 	@Column(name = "balance_after_inc")
 	private Long balanceAfter;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "card_id")
 	private Card card;
 

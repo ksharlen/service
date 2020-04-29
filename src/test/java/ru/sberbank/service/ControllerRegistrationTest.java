@@ -6,12 +6,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 import ru.sberbank.service.dto.RegistrationDto;
 import ru.sberbank.service.dto.UserDto;
@@ -34,8 +34,9 @@ public class ControllerRegistrationTest {
 	private RegistrationServiceImpl registrationService;
 	@Autowired
 	private UserRepo userRepo;
+	@Autowired
+	private TestRestTemplate restTemplate;
 
-	private final RestTemplate restTemplate = new RestTemplate();
 	private final UserDto expectedUser = new UserDto("Alex", "Akinin", "miily", "123");
 
 	@Autowired

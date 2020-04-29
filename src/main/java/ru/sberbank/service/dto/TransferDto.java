@@ -1,19 +1,19 @@
 package ru.sberbank.service.dto;
 
 public class TransferDto {
-	private Long IdCardByTo;
+	private Long idCardByTo;
 	private Long transferSum;
 
 	public TransferDto() {
 	}
 
 	public TransferDto(Long idCardByTo, Long transferSum) {
-		IdCardByTo = idCardByTo;
+		this.idCardByTo = idCardByTo;
 		this.transferSum = transferSum;
 	}
 
 	public Long getIdCardByTo() {
-		return IdCardByTo;
+		return idCardByTo;
 	}
 
 	public Long getTransferSum() {

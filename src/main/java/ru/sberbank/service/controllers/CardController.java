@@ -27,7 +27,7 @@ public class CardController {
 	}
 
 	// TODO: 27.04.2020 в разработке
-	@PutMapping(value = "/{login}/cards/{cardId}/", params = "op=replenish")
+	@PutMapping(value = "/{login}/cards/{cardId}", params = "op=replenish")
 	public CardDto replenishCard(@PathVariable String login,
 	                             @PathVariable Long cardId,
 	                             @RequestBody ReplenishCardDto replenishCardDto) {

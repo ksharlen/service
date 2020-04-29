@@ -1,8 +1,8 @@
 package ru.sberbank.service.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -24,8 +24,8 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany(mappedBy = "user")
-	private Set<Card> cards;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Card> cards;
 
 	public User() {
 	}
@@ -35,7 +35,7 @@ public class User {
 		this.lastName = lastName;
 		this.login = login;
 		this.password = password;
-		this.cards = new HashSet<>();
+		this.cards = new ArrayList<>();
 	}
 
 
@@ -71,11 +71,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Set<Card> getCards() {
+	public List<Card> getCards() {
 		return cards;
 	}
 
-	public void setCards(Set<Card> cards) {
+	public void setCards(List<Card> cards) {
 		this.cards = cards;
 	}
 

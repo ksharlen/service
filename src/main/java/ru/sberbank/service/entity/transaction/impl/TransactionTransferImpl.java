@@ -28,12 +28,7 @@ public class TransactionTransferImpl implements Transaction {
 	@Column(name = "balance_from_card_after_transfer")
 	private Long balanceFromCardAfterTransfer;
 
-	// TODO: 27.04.2020 не знаю можно ли как-то запросить баланс карты, на которую мы делаем перевод не имея к ней
-	// TODO: доступа, тк мы не являемся владельцем карты на которую переводим средства
-//	@Column(name = "balance_to_card_after_transfer")
-//	private Long balanceToCardAfterTransfer;
-
-	@ManyToOne(fetch = FetchType.EAGER) //todo: мы получаем сразу при этой транзакции информацию о владельце карты
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "card_id")
 	private Card card;
 
