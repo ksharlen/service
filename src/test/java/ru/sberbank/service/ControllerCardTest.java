@@ -17,8 +17,6 @@ import ru.sberbank.service.entity.User;
 import ru.sberbank.service.repos.CardRepo;
 import ru.sberbank.service.repos.UserRepo;
 
-import java.util.Arrays;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ControllerCardTest {
@@ -38,12 +36,16 @@ public class ControllerCardTest {
 	public void addNewCardTest() {
 	final RestTemplate restTemplate = new RestTemplate();
 		String testLoginUser = "miily";
-		final String baseUrl = "http://localhost:" + randomServerPort + "/" + testLoginUser + "/cards/new";
+		final String baseUrl = "http://localhost:" + randomServerPort + "/" + testLoginUser + "/cards/";
+		NewCardDto newCardDto = new NewCardDto("Alexandr", "Akinin");
 
 		createTestEntities();
-		HttpEntity<NewCardDto> request = new HttpEntity<>(new NewCardDto("hello"));
-		ResponseEntity<CardDto> response= restTemplate.postForEntity(baseUrl, request, CardDto.class);
+		HttpEntity<NewCardDto> request = new HttpEntity<>(newCardDto);
+		ResponseEntity<CardDto> response = restTemplate.postForEntity(baseUrl, request, CardDto.class);
 		Assert.assertNotNull(response.getBody());
+		Assert.assertEquals("Alexandr", response.getBody().getName());
+		Assert.assertEquals("Akinin", response.getBody().getLastName());
+		Assert.assertEquals(0, (long) response.getBody().getBalance());
 	}
 
 	private void createTestEntities() {
@@ -51,6 +53,8 @@ public class ControllerCardTest {
 		User user2 = new User("Sergey", "Volkov", "kros", "41");
 		User user3 = new User("Ivan", "Bykov", "tiner", "23");
 
-		userRepo.saveAll(Arrays.asList(user1, user2, user3));
+		userRepo.save(user1);
+		userRepo.save(user2);
+		userRepo.save(user3);
 	}
 }

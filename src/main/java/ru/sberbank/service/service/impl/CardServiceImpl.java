@@ -66,10 +66,9 @@ public class CardServiceImpl implements CardService {
 	// TODO: 28.04.2020 NewCardDto по факту пустой, он сделан для дальнейшего расширения, при котором пользователь
 	// TODO: захочет выбрать тип карты(например VISA) и внутри newCardDto это будет указано.
 	@Override
-	@Transactional
 	public CardDto addNewCard(NewCardDto newCardDto, String login) {
 		User user = userRepo.findUserByLogin(login);
-		Card card = new Card(user);
+		Card card = new Card(newCardDto.getName(), newCardDto.getLastName(), user);
 		card = cardRepo.save(card);
 
 		return convertCardToCardDto(card);
@@ -77,6 +76,6 @@ public class CardServiceImpl implements CardService {
 
 	// TODO: 27.04.2020 временное решение пока не воткнул маппер
 	private CardDto convertCardToCardDto(Card card) {
-		return new CardDto(card.getId(), card.getBalance());
+		return new CardDto(card.getName(), card.getLastName(), card.getId(), card.getBalance());
 	}
 }

@@ -1,20 +1,24 @@
 package ru.sberbank.service.dto;
 
 public class NewCardDto {
-	private String test;
+	private final String name;
+	private final String lastName;
 
 	public NewCardDto() {
+		this.name = "";
+		this.lastName = "";
 	}
 
-	public NewCardDto(String test) {
-		this.test = test;
+	public NewCardDto(String name, String lastName) {
+		this.name = name;
+		this.lastName = lastName;
 	}
 
-	public String getTest() {
-		return test;
+	public String getName() {
+		return name;
 	}
 
-	public void setTest(String test) {
-		this.test = test;
+	public String getLastName() {
+		return lastName;
 	}
 }

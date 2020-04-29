@@ -3,15 +3,21 @@ package ru.sberbank.service.dto;
 public class CardDto {
 	private final Long id;
 	private final Long balance;
+	private final String name;
+	private final String lastName;
 
 	public CardDto() {
 		this.id = -1L;
 		this.balance = 0L;
+		this.name = "";
+		this.lastName = "";
 	}
 
-	public CardDto(Long id, Long balance) {
+	public CardDto(String name, String lastName, Long id, Long balance) {
 		this.id = id;
 		this.balance = balance;
+		this.name = name;
+		this.lastName = lastName;
 	}
 
 	public Long getId() {
@@ -20,5 +26,13 @@ public class CardDto {
 
 	public Long getBalance() {
 		return balance;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getLastName() {
+		return lastName;
 	}
 }

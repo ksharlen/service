@@ -14,6 +14,12 @@ public class Card {
 	@GeneratedValue
 	private Long id;
 
+	@Column(name = "name")
+	private final String name;
+
+	@Column(name = "last_name")
+	private final String lastName;
+
 	@Column(name = "balance")
 	private Long balance;
 
@@ -31,10 +37,12 @@ public class Card {
 	@OneToMany(mappedBy = "card")
 	private List<TransactionTransferImpl> transactionTransfer;
 
-	public Card(User user) {
+	public Card(String name, String lastName, User user) {
 		this.balance = 0L;
 		this.user = user;
 		this.date = new Date();
+		this.name = name;
+		this.lastName = lastName;
 	}
 
 	public Long getBalance() {
@@ -71,5 +79,13 @@ public class Card {
 
 	public Date getDate() {
 		return date;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getLastName() {
+		return lastName;
 	}
 }

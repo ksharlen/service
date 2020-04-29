@@ -17,15 +17,17 @@ public class CardController {
 		this.validService = validService;
 	}
 
-	@PostMapping(value = "/{login}/cards/new/")
+	@PostMapping(value = "/{login}/cards/")
 	public CardDto newCard(@PathVariable String login,
 	                       @RequestBody NewCardDto newCardDto) {
 		validService.userIsFind(login);
+		validService.isEmpty(newCardDto.getName());
+		validService.isEmpty(newCardDto.getLastName());
 		return cardService.addNewCard(newCardDto, login);
 	}
 
 	// TODO: 27.04.2020 в разработке
-	@PutMapping(value = "/{login}/{cardId}/", params = "op=replenish")
+	@PutMapping(value = "/{login}/cards/{cardId}/", params = "op=replenish")
 	public CardDto replenishCard(@PathVariable String login,
 	                             @PathVariable Long cardId,
 	                             @RequestBody ReplenishCardDto replenishCardDto) {
@@ -47,7 +49,7 @@ public class CardController {
 	}
 
 	// TODO: 27.04.2020 в разработке
-	@GetMapping(value = "/{login}/{cardId}", params = "op=balance")
+	@GetMapping(value = "/{login}/cards/{cardId}", params = "op=balance")
 	public BalanceDto viewBalanceCard(@PathVariable String login, @PathVariable(name = "cardId") Long cardId) {
 		validService.cardIsFind(cardId);
 		return cardService.viewBalance(cardId);

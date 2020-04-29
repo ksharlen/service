@@ -53,4 +53,15 @@ public class ValidServiceImpl implements ValidService {
 			return true;
 		}
 	}
+
+	@Override
+	public boolean isEmpty(String str) {
+		if (str == null) {
+			throw new BadRequestException("Пустая строка");
+		} else if (str.length() == 0) {
+			throw new BadRequestException("Пустая строка");
+		} else {
+			return true;
+		}
+	}
 }
