@@ -42,10 +42,10 @@ public class ControllerCardTest {
 	@Test
 	public void addNewCardTest() {
 		String testLoginUser = "miily";
-		final String baseUrl = "http://localhost:" + randomServerPort + "/" + testLoginUser + "/cards/";
+		final String baseUrl = getUrlCard(testLoginUser);
 		NewCardDto newCardDto = new NewCardDto("Alexandr", "Akinin");
 
-		createTestEntitiy();
+		createUser();
 		HttpEntity<NewCardDto> request = new HttpEntity<>(newCardDto);
 		ResponseEntity<CardDto> response = restTemplate.postForEntity(baseUrl, request, CardDto.class);
 
@@ -59,7 +59,7 @@ public class ControllerCardTest {
 	public void replenishCardTest() {
 		User user = createUserAndUserCard();
 		Long idCard = user.getCards().get(0).getId();
-		final String baseUrl = "http://localhost:" + randomServerPort + "/" + "miily" + "/cards/" + idCard + "?op=replenish";
+		final String baseUrl = getUrlCard("miily", idCard, "?op=replenish");
 		ReplenishCardDto replenishCardDto = new ReplenishCardDto(10000L);
 
 		HttpEntity<ReplenishCardDto> request = new HttpEntity<>(replenishCardDto);
@@ -69,11 +69,6 @@ public class ControllerCardTest {
 		Assert.assertEquals(new Long(10000), card.getBalance());
 	}
 
-	private void createTestEntitiy() {
-		User user = new User("Alexandr", "Akinin", "miily", "123");
-
-		userRepo.save(user);
-	}
 
 	@Test
 	public void transferTest() {
@@ -81,7 +76,7 @@ public class ControllerCardTest {
 		Card cardFromTest = testUser.getCards().get(0);
 		Card cardToTest = testUser.getCards().get(1);
 		Long transferSum = 500L;
-		String baseUrl = "http://localhost:" + randomServerPort + "/" + testUser.getLogin() + "/cards/" + cardFromTest.getId() + "?op=transfer";
+		String baseUrl = getUrlCard(testUser.getLogin(), cardFromTest.getId(), "?op=transfer");
 		TransferDto transferDto = new TransferDto(cardToTest.getId(), transferSum);
 
 		HttpEntity<TransferDto> request = new HttpEntity<>(transferDto);
@@ -100,12 +95,18 @@ public class ControllerCardTest {
 		User userTest = createUserWithOneCardWithMoney();
 		Card userCard = userTest.getCards().get(0);
 		Long expectedBalance = 523L;
-		String baseUrl = "http://localhost:" + randomServerPort + "/" + userTest.getLogin() + "/cards/" + userCard.getId() + "?op=balance";
+		String baseUrl = getUrlCard(userTest.getLogin(), userCard.getId(), "?op=balance");
 
 		BalanceDto balanceDto = restTemplate.getForObject(baseUrl, BalanceDto.class);
 
 		Assert.assertNotNull(balanceDto);
 		Assert.assertEquals(expectedBalance, balanceDto.getBalance());
+	}
+
+	private void createUser() {
+		User user = new User("Alexandr", "Akinin", "miily", "123");
+
+		userRepo.save(user);
 	}
 
 	private User createUserAndUserCard() {
@@ -139,5 +140,17 @@ public class ControllerCardTest {
 		userRepo.save(user);
 		cardRepo.save(card);
 		return userRepo.findUserByLogin("miily");
+	}
+
+	private String getUrlCard(String login) {
+		return "http://localhost:" + randomServerPort + "/" + login + "/cards/";
+	}
+
+	private String getUrlCard(String login, Long idCard) {
+		return getUrlCard(login) + idCard;
+	}
+
+	private String getUrlCard(String login, Long idCard, String request) {
+		return getUrlCard(login, idCard) + request;
 	}
 }
