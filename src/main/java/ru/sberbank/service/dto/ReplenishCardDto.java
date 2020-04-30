@@ -3,8 +3,6 @@ package ru.sberbank.service.dto;
 public class ReplenishCardDto {
 	private Long increaseSumBy;
 
-	public ReplenishCardDto() {}
-
 	public ReplenishCardDto(Long increaseSumBy) {
 		this.increaseSumBy = increaseSumBy;
 	}

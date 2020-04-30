@@ -6,9 +6,6 @@ public class RegistrationDto {
 	private String login;
 	private String password;
 
-	public RegistrationDto() {
-	}
-
 	public RegistrationDto(String name, String lastName, String login, String password) {
 		this.name = name;
 		this.lastName = lastName;

@@ -6,13 +6,6 @@ public class CardDto {
 	private final String name;
 	private final String lastName;
 
-	public CardDto() {
-		this.id = -1L;
-		this.balance = 0L;
-		this.name = "";
-		this.lastName = "";
-	}
-
 	public CardDto(String name, String lastName, Long id, Long balance) {
 		this.id = id;
 		this.balance = balance;

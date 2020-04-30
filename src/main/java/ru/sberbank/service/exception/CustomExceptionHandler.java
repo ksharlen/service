@@ -16,8 +16,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	private static final String DUPLICATE_RECORD = "Дублирование записей";
 	private static final String BAD_REQUEST = "Неверный запрос";
 
-	// TODO: 28.04.2020 временное решение
-	// TODO: 28.04.2020 подумать над дублированием, надо убрать!
 	@ExceptionHandler(DuplicateRecordException.class)
 	public final ResponseEntity<ErrorResponse> handlerAllExceptions(DuplicateRecordException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();

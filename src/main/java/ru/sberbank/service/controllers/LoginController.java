@@ -9,7 +9,8 @@ import ru.sberbank.service.dto.UserDto;
 @RestController
 @RequestMapping("/login")
 public class LoginController {
-	// TODO: 27.04.2020 временное явление, логику пока не сделал
+
+	// TODO: 30.04.2020 в разработке
 	@PostMapping
 	public UserDto login(LoginDto loginDto) {
 		return (new UserDto());
